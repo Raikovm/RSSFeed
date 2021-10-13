@@ -1,0 +1,90 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:Class="RSSFeed.Themes.FeedItem"
+                    x:ClassModifier="public">
+    <Style TargetType="ListViewItem" x:Key="FeedItem">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <TextBlock Foreground="#1d1d1f"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"
+                                   Margin="4,0,-5,-4"
+                                   FontSize="16"
+                                   Text="{Binding FeedName}"/>
+
+
+                        <StackPanel Margin="0,0,0,15" Orientation="Vertical">
+
+                            <TextBlock Text="{Binding Title}"
+                                   Foreground="#44474D"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,0,0"
+                                   FontSize="15"
+                                   TextWrapping ="Wrap"
+                                   Tag="{Binding Link}"
+                                   MouseUp="Title_Clicked"
+                                   Cursor="Hand"
+                                   TextDecorations="UnderLine"/>
+
+                            <TextBlock Text="{Binding PubDate}"
+                                   Foreground="Gray"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,4,0"
+                                   FontSize="13"/>
+
+                            <TextBlock Name="Description"
+                                       Text="{Binding DescriptionWithoutTags}"
+                                       Foreground="#44474D"
+                                       FontSize="15"
+                                       TextWrapping ="Wrap"
+                                       Margin="5,1,10,0">
+
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding EnableTags}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+
+                            </TextBlock>
+
+                            <WebBrowser Name ="DescriptionWebBrowser"
+                                        Tag="{Binding DescriptionWithTags}" 
+                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                        ScrollViewer.CanContentScroll="False"
+                                        Height="auto"
+                                        Initialized="WebBrowserInitialized"
+                                        Navigating="WebBrowser_OnNavigating"
+                                        LoadCompleted="WebBrowser_OnLoadCompleted">
+
+                                <WebBrowser.Style>
+                                    <Style TargetType="{x:Type WebBrowser}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding EnableTags}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </WebBrowser.Style>
+                            </WebBrowser>
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

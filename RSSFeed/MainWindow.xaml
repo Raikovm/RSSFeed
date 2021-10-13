@@ -1,0 +1,129 @@
+﻿<Window x:Class="RSSFeed.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RSSFeed" xmlns:viewmodel="clr-namespace:RSSFeed.ViewModel"
+        mc:Ignorable="d"
+        Title="Your RSS Feed" Height="800" Width="1000"
+        ResizeMode="CanResizeWithGrip"
+        Background="White">
+
+    <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <ListView Name="FeedsListView"
+                  ItemsSource="{Binding FeedItems}"
+                  ItemContainerStyle="{StaticResource FeedItem}"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Grid.Row="0"
+                  Grid.Column="1"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Margin="10,10,0,0">
+        </ListView>
+
+
+
+
+
+        <StackPanel Grid.Row="0" 
+                    Grid.Column="0"
+                    Orientation="Vertical"
+                    Background="WhiteSmoke">
+
+            <Label Content="Settings"
+                   FontSize="16"
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Center"
+                   Margin="0,10,10,0"/>
+
+            <Label Content="Feeds"
+                   FontSize="14"
+                   FontWeight="SemiBold" 
+                   HorizontalAlignment="Left">
+                <Label.ToolTip>
+                    Each link must be on a separate line
+                </Label.ToolTip>
+            </Label>
+
+
+            <TextBox Name="LinksTb"
+                     Text="{Binding Links, Mode=TwoWay}"
+                     Margin="5, 2"
+                     TextWrapping="Wrap"
+                     IsReadOnly="False"
+                     AcceptsReturn="True"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <TextBox.ToolTip>
+                    Each link must be on a separate line
+                </TextBox.ToolTip>
+            </TextBox>
+
+
+            <Label Content="Auto refresh"
+                   FontSize="14"
+                   FontWeight="SemiBold" 
+                   HorizontalAlignment="Left"/>
+
+            <CheckBox Name="AutoRefreshCb"
+                      Margin="5,5"
+                      IsChecked="{Binding Path = AutoRefreshIsOn}"
+                      Content="Enabled"/>
+            <Label Content="Auto refresh time(in seconds)"
+                   FontWeight="SemiBold"/>
+
+
+            <TextBox Name="RefreshTimeTb"
+                     Margin="5,0,5,0"
+                     Text="{Binding Path=RefreshTime, Mode=TwoWay}"
+                     IsReadOnly="False"
+                     PreviewTextInput="NumderValidationTextBox">
+            </TextBox>
+
+            <Label Content="Formating"
+                   FontSize="14"
+                   FontWeight="SemiBold" 
+                   HorizontalAlignment="Left"/>
+
+            <CheckBox Name="FormatingCb"
+                      Content="Formating by tags"
+                      Margin="5,5"
+                      IsChecked="{Binding  Path=TagsFormating, Mode=TwoWay}">
+                <CheckBox.ToolTip>
+                    Refresh to update formating
+                </CheckBox.ToolTip>
+
+            </CheckBox>
+
+            <Button Content="Save settings"
+                    Margin="10"
+                    Command="{Binding SaveSettingsButtonClick}" 
+                    VerticalAlignment="Bottom">
+                <Button.ToolTip>
+                    Save settings to config file
+                </Button.ToolTip>
+            </Button>
+
+            <Button x:Name="RefreshButton" 
+                    Content="Refresh feeds"
+                    Margin="10,30,10,10 "
+                    Command="{Binding RefreshButtonClick}" 
+                    VerticalAlignment="Bottom"/>
+        </StackPanel>
+
+    </Grid>
+</Window>
